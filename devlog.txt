@@ -1,3 +1,6 @@
 jamesS, adeeburR, michaelC, kevinL -- 2017-11-21 14:17:42
 Did design doc
 
+michaelC -- 2017-11-21 14:50:06
+Added template.html and home.html
+
