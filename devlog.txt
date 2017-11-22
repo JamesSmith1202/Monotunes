@@ -16,3 +16,6 @@ completed login and create flask pages
 liK -- 2017-11-22 14:56:44
 updated readme
 
+adeeburR -- 2017-11-22 14:51:39
+added get_wav method
+
