@@ -10,3 +10,6 @@ worked on main.py
 michaelC -- 2017-11-22 14:39:14
 Added multiple html files to templates/
 
+jamesS -- 2017-11-22 14:53:47
+completed login and create flask pages
+
