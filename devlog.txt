@@ -13,3 +13,6 @@ Added multiple html files to templates/
 jamesS -- 2017-11-22 14:53:47
 completed login and create flask pages
 
+liK -- 2017-11-22 14:56:44
+updated readme
+
