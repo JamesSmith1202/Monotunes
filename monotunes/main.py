@@ -14,7 +14,7 @@ def add_session(username, password):
     if is_null(username, password, "filler"):
             flash("Username or password is blank")
             return False
-    if(db.login(username, password)):
+    if(db.login(username, password)):#if credentials match up in the db...
         session[USER_SESSION] = username
         return True
     else:
@@ -23,10 +23,12 @@ def add_session(username, password):
 
 @app.route("/")
 def root():
-    return render_template("home.html", top_songs = api.get_top_songs(), in_session = USER_SESSION in session)
+    return render_template("home.html", top_songs = api.get_top_songs())
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if USER_SESSION in session:
+        return redirect(url_for("/"))
     if (request.method == "GET"):
         return render_template("login.html")
     else:
@@ -38,7 +40,7 @@ def login():
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
-    if !request.method == "GET":
+    if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
         confirm_passsword = request.form["confirm_password"]
@@ -47,19 +49,38 @@ def create():
         elif password != confirm_password:
             flash("Password and password confirmation do not match")
         else:
-            if !create_account(username, password):
+            if not create_account(username, password):
                 flash("Username taken")
             else:
                 return redirect(url_for("login"))
     return render_template("create.html")
 
-@app.route("/profile")
+@app.route("/profile", methods = ["GET", "POST"])
 def profile():
-    pass
+    if (request.method == "GET"):
+        if not USER_SESSION in session:
+            return redirect(url_for("/login")) 
+        return render_template("profile.html", username = session[USER_SESSION], favorites = db.get_favorites(username))
+    db.remove_favorite(session[USER_SESSION], request.form["songID"])#must be a post request so remove the desired song
+    return redirect(url_for("/profile"))
 
-@app.route("/song")
-def song():
-    pass
+@app.route("/song", methods = ["GET", "POST"])
+def song(title, artist):
+    if request.method == "GET":
+        id = api.get_song_id(title, artist)
+        if id == 0:#if the song was not found
+            return render_template("error.html", title = title, artist = artist)
+        return render_template("song.html", title = title, artist = artist, lyrics = get_lyrics(id), id = id)#return page
+    if "favorite" in request.form:#if they want to add to favorites
+        if USER_SESSION in session:#check if user in session
+            db.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
+            return render_template("song.html", title = title, artist = artist, lyrics = get_lyrics(id), id = id)#re render the page
+            flash("Song has been added to your favorites")
+        else:
+            return redirect(url_for("login"))#if they arent logged in, then send them to the login page
+    elif "search_artist" in request.form:#if they wanted to search by artist
+        return redirect(url_for("/artist", artits = request.form["search_artist"]))#send them to the artist page
+    return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]#re render the page by sending another request with the form info
 
 @app.route("/artist")
 def artist():
