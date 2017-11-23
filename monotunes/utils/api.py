@@ -1,6 +1,9 @@
 import requests, os, sqlite3, json
 
 def get_wav(text, filename, voice = "en-US_AllisonVoice"):
+  if not os.path.isfile("creds.json"):
+    print("Missing credentials file.")
+    exit(1)
   if not os.path.isfile(filename):
     apiurl = "https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize"
     headers = {"content-type": "application/json", "Accept": "audio/wav", "Content-Disposition": "attachment;filename=audio.wav"}

@@ -102,3 +102,6 @@ ENV/
 
 # API credentials
 creds.json
+
+# Audio files
+*.wav
