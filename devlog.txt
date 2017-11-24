@@ -25,3 +25,6 @@ Did all of the flask app pages besides for search by artist. I am considering ch
 adeeburR -- 2017-11-23 17:57:35
 added login backend and favorite methods
 
+adeeburR -- 2017-11-24 12:52:57
+organized backend code
+

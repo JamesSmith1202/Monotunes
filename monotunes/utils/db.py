@@ -1,8 +1,10 @@
 import sqlite3, hashlib
 
+m = "data/database.db"
+
 # Login - Returns true if successful, false otherwise
 def login(username, password):
-    db = sqlite3.connect("utils/database.db")
+    db = sqlite3.connect(m)
     c = db.cursor()
     c.execute("SELECT username, password FROM accounts WHERE username = '%s'" % (username));
     for account in c:
@@ -22,7 +24,7 @@ def encrypt_password(password):
 
 # Create account - Returns true if successful, false otherwise
 def create_account(username, password):
-    db = sqlite3.connect("utils/database.db")
+    db = sqlite3.connect(m)
     c = db.cursor()
     if not does_username_exist(username):
         # Add user to accounts table
@@ -36,7 +38,7 @@ def create_account(username, password):
 
 # Checks if username exists - Returns true if username exists, false otherwise
 def does_username_exist(username):
-    db = sqlite3.connect("utils/database.db")
+    db = sqlite3.connect(m)
     c = db.cursor()
     c.execute("SELECT username FROM accounts WHERE username = '%s'" % (username))
     for account in c:
@@ -48,7 +50,7 @@ def does_username_exist(username):
 
 # Returns a list of all of username's favorites
 def get_favorites(username):
-    db = sqlite3.connect("utils/database.db")
+    db = sqlite3.connect(m)
     c = db.cursor()
     c.execute("SELECT favorites FROM accounts WHERE username = '%s'" % (username))
     for tracks in c:
@@ -63,7 +65,7 @@ def is_favorite(username, trackid):
 
 # Appends trackid to username's list of favorites
 def add_favorite(username, trackid):
-    db = sqlite3.connect("utils/database.db")
+    db = sqlite3.connect(m)
     c = db.cursor()
     if not is_favorite(username, trackid):
         trackids = get_favorites(username)
@@ -75,7 +77,7 @@ def add_favorite(username, trackid):
 
 # Removes trackid from username's list of favorites
 def add_favorite(username, trackid):
-    db = sqlite3.connect("utils/database.db")
+    db = sqlite3.connect(m)
     c = db.cursor()
     if is_favorite(username, trackid):
         trackids = get_favorites(username)
@@ -84,3 +86,14 @@ def add_favorite(username, trackid):
         c.execute("UPDATE accounts SET favorites = '%s' WHERE username = '%s'" % (id_list, username))
         db.commit()
         db.close()
+
+if __name__ == '__main__':
+    m = "../data/database.db"
+    db = sqlite3.connect(m)
+    c = db.cursor()
+    c.execute("CREATE TABLE IF NOT EXISTS accounts (username TEXT PRIMARY KEY, password TEXT, favorites TEXT);")
+    db.commit()
+    create_account("watson", "ibm135")
+    create_account("sherlock", "shrek")
+    create_account("moriarty", "p455w0rd3")
+    db.close()
