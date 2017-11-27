@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, session, request, flash
-import os
+import os, sqlite3
 from utils import api, db
 
 USER_SESSION = "logged_in"
@@ -23,7 +23,10 @@ def add_session(username, password):
 
 @app.route("/")
 def root():
-    return render_template("home.html", top_songs = api.get_top_songs())
+    if USER_SESSION in session:
+        return render_template("home.html", top_songs = api.get_top_songs())
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -35,8 +38,8 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         if add_session(username, password):
-            return redirect(url_for("home"))
-        return render_template("login.html")     
+            return redirect(url_for("root"))
+        return render_template("login.html")
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
@@ -44,14 +47,14 @@ def create():
         print request.form["confirmPassword"]
         username = request.form["username"]
         password = request.form["password"]
-        confirm_passsword = request.form["confirmPassword"]
-        
+        confirm_password = request.form["confirmPassword"]
+
         if is_null(username, password, confirm_password):
             flash("A field was left empty")
         elif password != confirm_password:
             flash("Password and password confirmation do not match")
         else:
-            if not create_account(username, password):
+            if not db.create_account(username, password):
                 flash("Username taken")
             else:
                 return redirect(url_for("login"))
@@ -61,7 +64,7 @@ def create():
 def profile():
     if (request.method == "GET"):
         if not USER_SESSION in session:
-            return redirect(url_for("/login")) 
+            return redirect(url_for("/login"))
         return render_template("profile.html", username = session[USER_SESSION], favorites = db.get_favorites(username))
     db.remove_favorite(session[USER_SESSION], request.form["songID"])#must be a post request so remove the desired song
     return redirect(url_for("/profile"))
@@ -89,5 +92,13 @@ def artist():
     pass
 
 if __name__ == "__main__":
+    db = sqlite3.connect("data/database.db")
+    c = db.cursor()
+    c.execute("CREATE TABLE IF NOT EXISTS accounts (username TEXT PRIMARY KEY, password TEXT, favorites TEXT);")
+    db.commit()
     app.debug = True
     app.run()
+    db.close()
+    for f in os.listdir("static"):
+        if f[-4:] == ".wav":
+            os.remove("static/" + f)

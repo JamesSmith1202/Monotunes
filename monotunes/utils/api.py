@@ -23,4 +23,4 @@ def get_wav(text, filename, voice = "en-US_AllisonVoice"):
   return True
 
 if __name__ == "__main__":
-  get_wav("Testing text to speech API", "test.wav")
+  get_wav("Testing text to speech API", "../static/test.wav")

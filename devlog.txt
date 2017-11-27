@@ -34,3 +34,6 @@ Updated login.html and create.html, and fixed main.py not running
 liK -- 2017-11-27 14:27:06
 updated the readme to specifications on website
 
+adeeburR -- 2017-11-27 14:46:55
+fix some routes in main.py, remove wav files
+
