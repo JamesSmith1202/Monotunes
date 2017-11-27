@@ -41,9 +41,11 @@ def login():
 @app.route("/create", methods=["GET", "POST"])
 def create():
     if request.method == "POST":
+        print request.form["confirmPassword"]
         username = request.form["username"]
         password = request.form["password"]
-        confirm_passsword = request.form["confirm_password"]
+        confirm_passsword = request.form["confirmPassword"]
+        
         if is_null(username, password, confirm_password):
             flash("A field was left empty")
         elif password != confirm_password:
@@ -80,8 +82,12 @@ def song(title, artist):
             return redirect(url_for("login"))#if they arent logged in, then send them to the login page
     elif "search_artist" in request.form:#if they wanted to search by artist
         return redirect(url_for("/artist", artits = request.form["search_artist"]))#send them to the artist page
-    return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]#re render the page by sending another request with the form info
+    return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
 
 @app.route("/artist")
 def artist():
     pass
+
+if __name__ == "__main__":
+    app.debug = True
+    app.run()

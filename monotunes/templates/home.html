@@ -1,6 +1,7 @@
 {% extends "template.html" %}
 {%block title %}Home{% endblock %}
 {%block content %}
+	{{top_songs}}
     <form method="POST" action="/login">
       {% with messages = get_flashed_messages() %}
       {% if messages %}
