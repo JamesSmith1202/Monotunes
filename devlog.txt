@@ -31,3 +31,6 @@ organized backend code
 michaelC -- 2017-11-27 07:02:30
 Updated login.html and create.html, and fixed main.py not running
 
+liK -- 2017-11-27 14:27:06
+updated the readme to specifications on website
+
