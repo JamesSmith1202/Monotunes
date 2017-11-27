@@ -28,3 +28,6 @@ added login backend and favorite methods
 adeeburR -- 2017-11-24 12:52:57
 organized backend code
 
+michaelC -- 2017-11-27 07:02:30
+Updated login.html and create.html, and fixed main.py not running
+
