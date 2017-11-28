@@ -43,3 +43,6 @@ did musixmatch api functions
 adeeburR -- 2017-11-27 21:19:26
 cleaned up some code
 
+jamesS -- 2017-11-27 22:01:35
+swapped musixmatch api over to requests from urllib2
+
