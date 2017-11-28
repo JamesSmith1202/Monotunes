@@ -1,4 +1,4 @@
-import requests, os, sqlite3, json, urllib2
+import requests, os, sqlite3
 
 creds = "creds.json"
 if __name__ == "__main__":
@@ -11,63 +11,50 @@ if not os.path.isfile(creds):
 source = open(creds)
 data = source.read()
 data = json.loads(data)
-api_base = "http://api.musixmatch.com/ws/1.1/{0}?{1}&apikey=" + data["musix_match"]["key"]#formatting strings for the command and parameters
+api_base = "http://api.musixmatch.com/ws/1.1/{}"#formatting string for the command
+musix_key = data["musix_match"]["key"]
 ibm_user = data['text_to_speech']['username']
 ibm_pwd = data['text_to_speech']['password']
 source.close()
 
 def get_song_id(track, artist):
-    url = api_base.format("track.search", "q_track={0}&q_artist={1}&page_size=5&page=1&s_track_rating=desc".format(track.replace(" ", "%20"), artist.replace(" ", "%20")))
-    u = urllib2.urlopen(url)
-    msg = u.read()
-    search_dict = json.loads(msg)
+    args = {"q_track":track, "q_artist":artist, "page_size":"5", "page":"1","s_track_rating":"desc","apikey":musix_key}
+    msg = requests.get(api_base.format("track.search"), params=args)
+    search_dict = msg.json()
     if search_dict["message"]["body"]["track_list"] == []:
         return 0
     return search_dict["message"]["body"]["track_list"][0]["track"]["track_id"]
 
 def get_lyrics(track_id):
-    url = api_base.format("track.lyrics.get","track_id={}".format(track_id))
-    u = urllib2.urlopen(url)
-    msg = u.read()
-    lyrics_dict = json.loads(msg)
+    args = {"track_id":track_id, "apikey":musix_key}
+    msg = requests.get(api_base.format("track.lyrics.get"), params=args)
+    search_dict = msg.json()
     return lyrics_dict["message"]["body"]["lyrics"]["lyrics_body"]
 
-def get_img(track_id):
-    url = api_base.format("track.get","track_id={}".format(track_id))
-    u = urllib2.urlopen(url)
-    msg = u.read()
-    track_dict = json.loads(msg)
-    print track_dict
-    return track_dict["message"]["body"]["track"]["album_coverart_500x500"]
-
 def get_artistid(artist):
-    url = api_base.format("artist.search","q_artist={}".format(artist))
-    u = urllib2.urlopen(url)
-    msg = u.read()
-    search_dict = json.loads(msg)
+    args = {"q_artist":artist, "apikey":musix_key}
+    msg = requests.get(api_base.format("artist.search"), params=args)
+    search_dict = msg.json()
     if search_dict["message"]["body"]["artist_list"] == []:
         return 0
     return search_dict["message"]["body"]["artist_list"][0]["artist"]["artist_id"]
 
 def get_albums(artistid):
-    url = api_base.format("artist.albums.get","artist_id={}".format(artistid))
-    u = urllib2.urlopen(url)
-    msg = u.read()
-    search_dict = json.loads(msg)
+    args = {"artist_id":artistid, "apikey":musix_key}
+    msg = requests.get(api_base.format("artist.albums.get"), params=args)
+    search_dict = msg.json()
     return search_dict["message"]["body"]["album_list"]
 
 def get_album_tracks(albumid):
-    url = api_base.format("albums.tracks.get","album_id={}".format(albumid))
-    u = urllib2.urlopen(url)
-    msg = u.read()
-    search_dict = json.loads(msg)
+    args = {"album_id":albumid, "apikey":musix_key}
+    msg = requests.get(api_base.format("albums.tracks.get"), params=args)
+    search_dict = msg.json()
     return search_dict["message"]["body"]["track_list"]
 
 def get_top_songs():
-    url = api_base.format("chart.tracks.get","page=1&page_size=10&country=us&f_has_lyrics=1")
-    u = urllib2.urlopen(url)
-    msg = u.read()
-    search_dict = json.loads(msg)
+    args = {"page":"1", "page_size":"10", "country":"us", "f_has_lyrics"="1", "apikey":musix_key}
+    msg = requests.get(api_base.format("chart.tracks.get"), params=args)
+    search_dict = msg.json()
     return search_dict["message"]["body"]["track_list"]
 
 def get_wav(text, filename, voice = "en-US_AllisonVoice"):
