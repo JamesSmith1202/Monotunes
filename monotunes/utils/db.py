@@ -76,7 +76,7 @@ def add_favorite(username, trackid):
         db.close()
 
 # Removes trackid from username's list of favorites
-def add_favorite(username, trackid):
+def remove_favorite(username, trackid):
     db = sqlite3.connect(m)
     c = db.cursor()
     if is_favorite(username, trackid):

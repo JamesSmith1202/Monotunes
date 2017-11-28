@@ -1,14 +1,20 @@
 import requests, os, sqlite3, json, urllib2
 
-if not os.path.isfile("creds.json"):
+creds = "creds.json"
+if __name__ == "__main__":
+    creds = "../creds.json"
+
+if not os.path.isfile(creds):
     print("Missing credentials file.")
     exit(1)
 
-source = open("creds.json")
+source = open(creds)
 data = source.read()
 data = json.loads(data)
 api_base = "http://api.musixmatch.com/ws/1.1/{0}?{1}&apikey=" + data["musix_match"]["key"]#formatting strings for the command and parameters
-data.close()
+ibm_user = data['text_to_speech']['username']
+ibm_pwd = data['text_to_speech']['password']
+source.close()
 
 def get_song_id(track, artist):
     url = api_base.format("track.search", "q_track={0}&q_artist={1}&page_size=5&page=1&s_track_rating=desc".format(track.replace(" ", "%20"), artist.replace(" ", "%20")))
@@ -65,26 +71,18 @@ def get_top_songs():
     return search_dict["message"]["body"]["track_list"]
 
 def get_wav(text, filename, voice = "en-US_AllisonVoice"):
-  if not os.path.isfile("creds.json"):
-    print("Missing credentials file.")
-    exit(1)
   if not os.path.isfile(filename):
-    apiurl = "https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize"
-    headers = {"content-type": "application/json", "Accept": "audio/wav", "Content-Disposition": "attachment;filename=audio.wav"}
-    dictionary = {"text": text, "voice": voice}
-    source = open("creds.json")
-    data = source.read()
-    data = json.loads(data)
-    user = data['text_to_speech']['username']
-    pwd = data['text_to_speech']['password']
-    try:
-      r = requests.get(apiurl, auth=(user, pwd), stream=True, params=dictionary)
-    except Exception as e:
-      print e
+      apiurl = "https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize"
+      headers = {"content-type": "application/json", "Accept": "audio/wav", "Content-Disposition": "attachment;filename=audio.wav"}
+      dictionary = {"text": text, "voice": voice}
+      try:
+          r = requests.get(apiurl, auth=(ibm_user, ibm_pwd), stream=True, params=dictionary)
+      except Exception as e:
+          print e
       return False
-    with open(filename, 'wb') as f:
-      f.write(r.content)
+  with open(filename, 'wb') as f:
+        f.write(r.content)
   return True
 
 if __name__ == "__main__":
-  get_wav("Testing text to speech API", "../static/test.wav")
+    get_wav("Testing text to speech API", "../static/test.wav")

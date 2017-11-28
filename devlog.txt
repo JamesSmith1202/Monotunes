@@ -40,3 +40,6 @@ fix some routes in main.py, remove wav files
 jamesS -- 2017-11-27 20:34:19
 did musixmatch api functions
 
+adeeburR -- 2017-11-27 21:19:26
+cleaned up some code
+
