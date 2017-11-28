@@ -30,12 +30,12 @@
           <a class="nav-link" href="/profile">Profile</a>
         </li>
       </ul>
-      <form class="form-inline mt-2 mt-md-0" action="/song" >
-        <input class="form-control mr-sm-2" type="text" placeholder="Search by song">
+      <form class="form-inline mt-2 mt-md-0" action="/song" method="GET">
+        <input class="form-control mr-sm-2" type="text" name="title" placeholder="Search by song">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 
-      <form class="form-inline mt-2 mt-md-0" action="/artist" id="search-left">
+      <form class="form-inline mt-2 mt-md-0" action="/artist" id="search-left" method="GET">
         <input class="form-control mr-sm-2" type="text" placeholder="Search by artist">
       </form>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

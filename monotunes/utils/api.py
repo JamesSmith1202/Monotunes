@@ -17,7 +17,7 @@ ibm_user = data['text_to_speech']['username']
 ibm_pwd = data['text_to_speech']['password']
 source.close()
 
-def get_song_id(track, artist):
+def get_song_id(track, artist=""):
     args = {"q_track":track, "q_artist":artist, "page_size":"5", "page":"1","s_track_rating":"desc","apikey":musix_key}
     msg = requests.get(api_base.format("track.search"), params=args)
     search_dict = msg.json()
@@ -29,7 +29,7 @@ def get_lyrics(track_id):
     args = {"track_id":track_id, "apikey":musix_key}
     msg = requests.get(api_base.format("track.lyrics.get"), params=args)
     search_dict = msg.json()
-    return lyrics_dict["message"]["body"]["lyrics"]["lyrics_body"]
+    return search_dict["message"]["body"]["lyrics"]["lyrics_body"]
 
 def get_artistid(artist):
     args = {"q_artist":artist, "apikey":musix_key}

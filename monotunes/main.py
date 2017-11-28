@@ -1,8 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, session, request, flash
 import os, sqlite3
-import utils.api as api
-import utils.db as dab
-
+from utils import api, db
 
 USER_SESSION = "logged_in"
 
@@ -16,7 +14,7 @@ def add_session(username, password):
     if is_null(username, password, "filler"):
             flash("Username or password is blank")
             return False
-    if(dab.login(username, password)):#if credentials match up in the db...
+    if(db.login(username, password)):#if credentials match up in the db...
         session[USER_SESSION] = username
         return True
     else:
@@ -59,7 +57,7 @@ def create():
         elif password != confirm_password:
             flash("Password and password confirmation do not match")
         else:
-            if not dab.create_account(username, password):
+            if not db.create_account(username, password):
                 flash("Username taken")
             else:
                 return redirect(url_for("login"))
@@ -72,46 +70,47 @@ def profile():
             return redirect(url_for("login"))
         else:
             username = session[USER_SESSION]
-            return render_template("profile.html", username = username, favorites = dab.get_favorites(username))
+            return render_template("profile.html", username = username, favorites = db.get_favorites(username))
     elif "search_artist" in request.form:#if they wanted to search by artist
         return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
     elif "title" in request.form:
         return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
     else:
-        dab.remove_favorite(session[USER_SESSION], request.form["songID"])#must be a post request so remove the desired song
+        db.remove_favorite(session[USER_SESSION], request.form["songID"])#must be a post request so remove the desired song
         return redirect(url_for("/profile"))
 
 @app.route("/song", methods = ["GET", "POST"])
-def song(title, artist):
+def song():
     if request.method == "GET":
+        title = request.args.get("title")
+        artist = request.args.get("artist")
         id = api.get_song_id(title, artist)
         if id == 0:#if the song was not found
             return render_template("error.html", title = title, artist = artist)
-        return render_template("song.html", title = title, artist = artist, lyrics = get_lyrics(id), id = id)#return page
+        return render_template("song.html", title = title, artist = artist, lyrics = api.get_lyrics(id), id = id)#return page
     if "favorite" in request.form:#if they want to add to favorites
         if USER_SESSION in session:#check if user in session
-            dab.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
-            return render_template("song.html", title = title, artist = artist, lyrics = get_lyrics(id), id = id)#re render the page
+            db.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
+            return render_template("song.html", title = title, artist = artist, lyrics = api.get_lyrics(id), id = id)#re render the page
             flash("Song has been added to your favorites")
         else:
             return redirect(url_for("login"))#if they arent logged in, then send them to the login page
     elif "search_artist" in request.form:#if they wanted to search by artist
-        return redirect(url_for("/artist", artits = request.form["search_artist"]))#send them to the artist page
+        return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
     return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
 
 @app.route("/artist", methods = ["GET", "POST"])
-def artist(artist):
-   pass 
-    
+def artist():
+   return "artist"
 
 if __name__ == "__main__":
-    db = sqlite3.connect("data/database.db")
-    c = db.cursor()
+    d = sqlite3.connect("data/database.db")
+    c = d.cursor()
     c.execute("CREATE TABLE IF NOT EXISTS accounts (username TEXT PRIMARY KEY, password TEXT, favorites TEXT);")
-    db.commit()
+    d.commit()
     app.debug = True
     app.run()
-    db.close()
+    d.close()
     for f in os.listdir("static"):
         if f[-4:] == ".wav":
             os.remove("static/" + f)
