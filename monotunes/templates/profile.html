@@ -1,1 +1,8 @@
 {% extends "template.html" %}
+{%block title %}{{username}}'s Profile{% endblock %}
+{%block content %}
+{{username}}'s profile
+{% for each in favorites%}
+  <li>{{each}}</li>
+{%endfor%}
+{%endblock%}

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, session, request, flash
 import os, sqlite3
 import utils.api as api
-import utils.db as db
+import utils.db as dab
 
 
 USER_SESSION = "logged_in"
@@ -16,7 +16,7 @@ def add_session(username, password):
     if is_null(username, password, "filler"):
             flash("Username or password is blank")
             return False
-    if(db.login(username, password)):#if credentials match up in the db...
+    if(dab.login(username, password)):#if credentials match up in the db...
         session[USER_SESSION] = username
         return True
     else:
@@ -34,7 +34,7 @@ def root():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if USER_SESSION in session:
-        return redirect(url_for("/"))
+        return redirect(url_for("root"))
     elif (request.method == "GET"):
         return render_template("login.html")
     else:
@@ -59,7 +59,7 @@ def create():
         elif password != confirm_password:
             flash("Password and password confirmation do not match")
         else:
-            if not db.create_account(username, password):
+            if not dab.create_account(username, password):
                 flash("Username taken")
             else:
                 return redirect(url_for("login"))
@@ -69,14 +69,16 @@ def create():
 def profile():
     if (request.method == "GET"):
         if not USER_SESSION in session:
-            return redirect(url_for("/login"))
-        return render_template("profile.html", username = session[USER_SESSION], favorites = db.get_favorites(username))
+            return redirect(url_for("login"))
+        else:
+            username = session[USER_SESSION]
+            return render_template("profile.html", username = username, favorites = dab.get_favorites(username))
     elif "search_artist" in request.form:#if they wanted to search by artist
-        return redirect(url_for("/artist", artits = request.form["search_artist"]))#send them to the artist page
+        return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
     elif "title" in request.form:
         return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
     else:
-        db.remove_favorite(session[USER_SESSION], request.form["songID"])#must be a post request so remove the desired song
+        dab.remove_favorite(session[USER_SESSION], request.form["songID"])#must be a post request so remove the desired song
         return redirect(url_for("/profile"))
 
 @app.route("/song", methods = ["GET", "POST"])
@@ -88,7 +90,7 @@ def song(title, artist):
         return render_template("song.html", title = title, artist = artist, lyrics = get_lyrics(id), id = id)#return page
     if "favorite" in request.form:#if they want to add to favorites
         if USER_SESSION in session:#check if user in session
-            db.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
+            dab.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
             return render_template("song.html", title = title, artist = artist, lyrics = get_lyrics(id), id = id)#re render the page
             flash("Song has been added to your favorites")
         else:
