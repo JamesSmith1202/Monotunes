@@ -21,15 +21,19 @@ def add_session(username, password):
         flash("Incorrect login credentials")
         return False
 
-@app.route("/")
+@app.route("/", methods = ["GET", "POST"])
 def root():
-    return render_template("home.html", top_songs = api.get_top_songs())
+    if request.method == "GET":
+        return render_template("home.html", top_songs = api.get_top_songs())
+    elif "search_artist" in request.form:#if they wanted to search by artist
+        return redirect(url_for("/artist", artits = request.form["search_artist"]))#send them to the artist page
+    return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if USER_SESSION in session:
         return redirect(url_for("/"))
-    if (request.method == "GET"):
+    elif (request.method == "GET"):
         return render_template("login.html")
     else:
         username = request.form["username"]
@@ -40,6 +44,8 @@ def login():
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
+    if USER_SESSION in session:
+        return redirect(url_for("/"))
     if request.method == "POST":
         print request.form["confirmPassword"]
         username = request.form["username"]
@@ -63,8 +69,13 @@ def profile():
         if not USER_SESSION in session:
             return redirect(url_for("/login"))
         return render_template("profile.html", username = session[USER_SESSION], favorites = db.get_favorites(username))
-    db.remove_favorite(session[USER_SESSION], request.form["songID"])#must be a post request so remove the desired song
-    return redirect(url_for("/profile"))
+    elif "search_artist" in request.form:#if they wanted to search by artist
+        return redirect(url_for("/artist", artits = request.form["search_artist"]))#send them to the artist page
+    elif "title" in request.form:
+        return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
+    else:
+        db.remove_favorite(session[USER_SESSION], request.form["songID"])#must be a post request so remove the desired song
+        return redirect(url_for("/profile"))
 
 @app.route("/song", methods = ["GET", "POST"])
 def song(title, artist):
@@ -84,9 +95,10 @@ def song(title, artist):
         return redirect(url_for("/artist", artits = request.form["search_artist"]))#send them to the artist page
     return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
 
-@app.route("/artist")
-def artist():
-    pass
+@app.route("/artist", methods = ["GET", "POST"])
+def artist(artist):
+    
+    
 
 if __name__ == "__main__":
     db = sqlite3.connect("data/database.db")
