@@ -1,19 +1,9 @@
 {% extends "template.html" %}
 {%block title %}Home{% endblock %}
 {%block content %}
-	{{top_songs}}
-    <form method="POST" action="/login">
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-        <font color="red">{{ message }}</font><br>
-        {% endfor %}
-      {% endif %}
-      {% endwith %}
-      Username: <input type="text" name="user">
-      <br>
-      Password: <input type="password" name="password">
-      <br>
-      <input type="submit" name="form" value="Submit">
-    </form>
+<ul>
+{% for each in top_songs%}
+  <li>{{each["track"]["track_name"]}} by {{each["track"]["artist_name"]}} ({{each["track"]["artist_id"]}})</li>
+{%endfor%}
+</ul>
 {%endblock%}

@@ -52,7 +52,7 @@ def get_album_tracks(albumid):
     return search_dict["message"]["body"]["track_list"]
 
 def get_top_songs():
-    args = {"page":"1", "page_size":"10", "country":"us", "f_has_lyrics"="1", "apikey":musix_key}
+    args = {"page":"1", "page_size":"10", "country":"us", "f_has_lyrics":"1", "apikey":musix_key}
     msg = requests.get(api_base.format("chart.tracks.get"), params=args)
     search_dict = msg.json()
     return search_dict["message"]["body"]["track_list"]

@@ -49,3 +49,6 @@ swapped musixmatch api over to requests from urllib2
 adeeburR -- 2017-11-27 22:45:01
 added sample credentials file, updated readme
 
+michaelC -- 2017-11-28 01:29:41
+Added navbar, along with other bootstrap functionalities. Top 10 songs are now displayed on home route
+

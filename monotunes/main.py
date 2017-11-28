@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, session, request, flash
 import os, sqlite3
-from utils import api, db
+import utils.api as api
+import utils.db as db
+
 
 USER_SESSION = "logged_in"
 
@@ -97,7 +99,7 @@ def song(title, artist):
 
 @app.route("/artist", methods = ["GET", "POST"])
 def artist(artist):
-    
+   pass 
     
 
 if __name__ == "__main__":

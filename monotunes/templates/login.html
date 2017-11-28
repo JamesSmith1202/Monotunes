@@ -3,27 +3,23 @@
 {%block title %}
 Login
 {%endblock%}
-
-{% block content %}
-<h1> Login </h1>
-<br>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      <font color="red">{{ message }}</font><br>
-    {% endfor %}
-{% endif %}
-{% endwith %}
-<form method="POST" action="/login">
-  <div class="form-group">
-    <label for="username0"> Username </label>
-    <input type="text" class="form-control" id="username0" name="username" placeholder="Enter username">
-  </div>
-  <div class="form-group">
-    <label for="password0"> Password </label>
-    <input type="password" class="form-control" id="password0" name="password" placeholder="Enter password">
-  </div>
-  
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+{%block content %}
+    <form method="POST" action="/login">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <font color="red">{{ message }}</font><br>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="form-group">
+        <label for="user">Username</label>
+        <input name="username" type="text" class="form-control" id="user" placeholder="Enter username">
+      </div>
+      <div class="form-group">
+        <label for="pass">Password</label>
+        <input name="password" type="password" class="form-control" id="pass" placeholder="Enter password">
+      </div>
+      <input class="btn btn-primary" type="submit" name="form" value="Submit">
+    </form>
 {% endblock %}
