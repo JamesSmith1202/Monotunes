@@ -23,10 +23,7 @@ def add_session(username, password):
 
 @app.route("/")
 def root():
-    if USER_SESSION in session:
-        return render_template("home.html", top_songs = api.get_top_songs())
-    else:
-        return redirect(url_for("login"))
+    return render_template("home.html", top_songs = api.get_top_songs())
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
