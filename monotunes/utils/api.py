@@ -8,6 +8,7 @@ source = open("creds.json")
 data = source.read()
 data = json.loads(data)
 api_base = "http://api.musixmatch.com/ws/1.1/{0}?{1}&apikey=" + data["musix_match"]["key"]#formatting strings for the command and parameters
+data.close()
 
 def get_song_id(track, artist):
     url = api_base.format("track.search", "q_track={0}&q_artist={1}&page_size=5&page=1&s_track_rating=desc".format(track.replace(" ", "%20"), artist.replace(" ", "%20")))
