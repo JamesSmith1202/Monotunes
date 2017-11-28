@@ -52,3 +52,6 @@ added sample credentials file, updated readme
 michaelC -- 2017-11-28 01:29:41
 Added navbar, along with other bootstrap functionalities. Top 10 songs are now displayed on home route
 
+michaelC -- 2017-11-28 01:54:27
+Changed 'db' to 'dab' in main.py
+
