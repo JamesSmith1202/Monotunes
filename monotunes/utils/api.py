@@ -1,4 +1,4 @@
-import requests, os, sqlite3
+import requests, os, sqlite3, json
 
 creds = "creds.json"
 if __name__ == "__main__":
