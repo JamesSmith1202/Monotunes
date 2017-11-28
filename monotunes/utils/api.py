@@ -1,6 +1,13 @@
 import requests, os, sqlite3, json, urllib2
 
-api_base = "http://api.musixmatch.com/ws/1.1/{0}?{1}&apikey=7169e60f579305a0c080332a16b41537"#formatting strings for the command and parameters
+if not os.path.isfile("creds.json"):
+    print("Missing credentials file.")
+    exit(1)
+
+source = open("creds.json")
+data = source.read()
+data = json.loads(data)
+api_base = "http://api.musixmatch.com/ws/1.1/{0}?{1}&apikey=" + data["musix_match"]["key"]#formatting strings for the command and parameters
 
 def get_song_id(track, artist):
     url = api_base.format("track.search", "q_track={0}&q_artist={1}&page_size=5&page=1&s_track_rating=desc".format(track.replace(" ", "%20"), artist.replace(" ", "%20")))
@@ -49,7 +56,7 @@ def get_album_tracks(albumid):
     search_dict = json.loads(msg)
     return search_dict["message"]["body"]["track_list"]
 
-def get_top_songs()
+def get_top_songs():
     url = api_base.format("chart.tracks.get","page=1&page_size=10&country=us&f_has_lyrics=1")
     u = urllib2.urlopen(url)
     msg = u.read()
