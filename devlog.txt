@@ -46,3 +46,6 @@ cleaned up some code
 jamesS -- 2017-11-27 22:01:35
 swapped musixmatch api over to requests from urllib2
 
+adeeburR -- 2017-11-27 22:45:01
+added sample credentials file, updated readme
+
