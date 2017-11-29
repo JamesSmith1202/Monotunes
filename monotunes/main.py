@@ -21,13 +21,9 @@ def add_session(username, password):
         flash("Incorrect login credentials")
         return False
 
-@app.route("/", methods = ["GET", "POST"])
+@app.route("/")
 def root():
-    if request.method == "GET":
-        return render_template("home.html", top_songs = api.get_top_songs(), isLogged = (USER_SESSION in session))
-    elif "search_artist" in request.form:#if they wanted to search by artist
-        return redirect(url_for("/artist", artits = request.form["search_artist"]))#send them to the artist page
-    return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
+    return render_template("home.html", top_songs = api.get_top_songs(), isLogged = (USER_SESSION in session))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -83,10 +79,6 @@ def profile():
                 track = api.get_track(i)
                 favorites_dict[track["track_name"]] = [track["artist_name"], i]
             return render_template("profile.html", username = username, favorites_dict = favorites_dict, isLogged = (USER_SESSION in session))
-    elif "search_artist" in request.form:#if they wanted to search by artist
-        return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
-    elif "title" in request.form:
-        return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
     else:
         db.remove_favorite(session[USER_SESSION], request.form["songID"])#must be a post request so remove the desired song
         return redirect(url_for("/profile"))
@@ -103,35 +95,27 @@ def song():
         if lyrics == 0:
             return render_template("error.html", error = "Lyrics not found", title = title, artist = artist, isLogged = (USER_SESSION in session))
         return render_template("song.html", title = title, artist = artist, lyrics = lyrics, id = id, isLogged = (USER_SESSION in session))#return page
-    if "favorite" in request.form:#if they want to add to favorites
-        if USER_SESSION in session:#check if user in session
-            if db.is_favorite(session[USER_SESSION], request.form["favorite"]):
-                flash("Song is already in your favorites list.")
-            else:
-                db.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
-                flash("Song has been added to your favorites")
-            return render_template("song.html", title = title, artist = artist, lyrics = api.get_lyrics(id), id = id)#re render the page
+    elif USER_SESSION in session:#check if user in session
+        if db.is_favorite(session[USER_SESSION], request.form["favorite"]):
+            flash("Song is already in your favorites list.")
         else:
-            return redirect(url_for("login"))#if they arent logged in, then send them to the login page
-    elif "search_artist" in request.form:#if they wanted to search by artist
-        return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
-    return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
+            db.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
+            flash("Song has been added to your favorites")
+        return render_template("song.html", title = title, artist = artist, lyrics = api.get_lyrics(id), id = id)#re render the page
+    else:
+        return redirect(url_for("login"))#if they arent logged in, then send them to the login page
 
-@app.route("/artist", methods = ["GET", "POST"])
+@app.route("/artist")
 def artist():
-    if request.method == "GET":
-        artist = request.args.get("artist")
-        id = api.get_artistid(artist)
-        if id == 0:#if the song was not found
-            return render_template("error.html", error = "Artist not found", artist = artist, isLogged = (USER_SESSION in session))
-        albums = api.get_albums(id)
-        album_dict = {}
-        for i in albums:
-            album_dict[i["album"]["album_name"]] = api.get_album_tracks(i["album"]["album_id"])
-        return render_template("artist.html", artist = artist, album_dict = album_dict, isLogged = (USER_SESSION in session))
-    elif "search_artist" in request.form:#if they wanted to search by artist
-        return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
-    return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
+    artist = request.args.get("artist")
+    id = api.get_artistid(artist)
+    if id == 0:#if the song was not found
+        return render_template("error.html", error = "Artist not found", artist = artist, isLogged = (USER_SESSION in session))
+    albums = api.get_albums(id)
+    album_dict = {}
+    for i in albums:
+        album_dict[i["album"]["album_name"]] = api.get_album_tracks(i["album"]["album_id"])
+    return render_template("artist.html", artist = artist, album_dict = album_dict, isLogged = (USER_SESSION in session))
 
 @app.route("/search")
 def search():
