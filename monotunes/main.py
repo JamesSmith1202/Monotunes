@@ -42,6 +42,13 @@ def login():
             return redirect(url_for("root"))
         return render_template("login.html")
 
+
+@app.route("/logout")
+def logout():
+    if USER_SESSION in session:
+		session.pop(USER_SESSION)
+        return redirect(url_for("login"))
+
 @app.route("/create", methods=["GET", "POST"])
 def create():
     if USER_SESSION in session:
