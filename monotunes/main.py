@@ -47,7 +47,7 @@ def login():
 def logout():
     if USER_SESSION in session:
 		session.pop(USER_SESSION)
-        return redirect(url_for("login"))
+    return redirect(url_for("login"))
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
