@@ -1,7 +1,13 @@
 {% extends "template.html" %}
 {% block title %}
-Error 404
+Error!
 {% endblock %}
 {% block content %}
-Error
+Error: {{error}}<br>
+You searched for:<br>
+{% if artist == "" %}
+Artist: {{artist}}
+{% else %}
+{{title}} by {{artist}}
+{% endif %}
 {%endblock%}
