@@ -109,13 +109,12 @@ def song():
             else:
                 db.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
                 flash("Song has been added to your favorites")
-            return render_template("song.html", isLogged = (USER_SESSION in session), title = title, artist = artist, lyrics = api.get_lyrics(id), id = id)#re render the page
+            lyrics = api.get_lyrics(id)
+            id = api.get_song_id(title, artist)
+            return render_template("song.html", title = title, artist = artist, lyrics = lyrics, id = id, isLogged = (USER_SESSION in session), url = url_for("static", filename = "{}.wav".format(title)))#return page#re render the page
         else:
             flash("Please login to add to your favorites.")
             return redirect(url_for("login"))#if they arent logged in, then send them to the login page
-    elif "search_artist" in request.form:#if they wanted to search by artist
-        return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
-    return redirect(url_for("/song",isLogged = (USER_SESSION in session), title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
 
 @app.route("/artist")
 def artist():

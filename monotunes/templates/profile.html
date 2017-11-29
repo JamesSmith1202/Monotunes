@@ -7,11 +7,11 @@
 <div class="container-fluid">
   {% for each in favorites_dict %}
   <div class="row">
-  <div class="col-md-3 musiclist">
+  <div class="col-md musiclist">
   
-    <li><a href="/song?title={{each}}&artist={{favorites_dict[each][0]}}">{{each}}</a> by <a href="/artist?artist={{favorites_dict[each][0]}}">{{favorites_dict[each][0]}}</a> </li>
+    <a href="/song?title={{each}}&artist={{favorites_dict[each][0]}}">{{each}}</a> by <a href="/artist?artist={{favorites_dict[each][0]}}">{{favorites_dict[each][0]}}</a>
   </div>
-  <div class="col-md">
+  <div class="col-md-3">
     <form action="/profile" method="post">
       <input type="hidden" name="songID" value="{{favorites_dict[each][1]}}">
       <input class="btn btn-sm btn-primary" type="submit" name="form" value="Remove">

@@ -78,3 +78,6 @@ design doc up to new specifications
 liK -- 2017-11-29 04:30:16
 fixed footer issue and added more CSS
 
+jamesS -- 2017-11-29 07:16:35
+Added necessary functions, debugged program, made flowchart, and did some last minute styling.
+
