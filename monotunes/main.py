@@ -93,8 +93,11 @@ def song():
         artist = request.args.get("artist")
         id = api.get_song_id(title, artist)
         if id == 0:#if the song was not found
-            return render_template("error.html", title = title, artist = artist, isLogged = (USER_SESSION in session))
-        return render_template("song.html", title = title, artist = artist, lyrics = api.get_lyrics(id), id = id, isLogged = (USER_SESSION in session))#return page
+            return render_template("error.html", error = "Song not found", title = title, artist = artist, isLogged = (USER_SESSION in session))
+        lyrics = api.get_lyrics(id)
+        if lyrics == 0:
+            return render_template("error.html", error = "Lyrics not found", title = title, artist = artist, isLogged = (USER_SESSION in session))
+        return render_template("song.html", title = title, artist = artist, lyrics = lyrics, id = id, isLogged = (USER_SESSION in session))#return page
     if "favorite" in request.form:#if they want to add to favorites
         if USER_SESSION in session:#check if user in session
             db.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
@@ -112,7 +115,7 @@ def artist():
         artist = request.args.get("artist")
         id = api.get_artistid(artist)
         if id == 0:#if the song was not found
-            return render_template("error.html", artist = artist, isLogged = (USER_SESSION in session))
+            return render_template("error.html", error = "Artist not found", artist = artist, isLogged = (USER_SESSION in session))
         albums = api.get_albums(id)
         album_dict = {}
         for i in albums:

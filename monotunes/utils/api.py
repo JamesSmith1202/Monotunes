@@ -29,6 +29,8 @@ def get_lyrics(track_id):
     args = {"track_id":track_id, "apikey":musix_key}
     msg = requests.get(api_base.format("track.lyrics.get"), params=args)
     search_dict = msg.json()
+    if search_dict["message"]["body"] == []:
+        return 0
     return search_dict["message"]["body"]["lyrics"]["lyrics_body"]
 
 def get_artistid(artist):
