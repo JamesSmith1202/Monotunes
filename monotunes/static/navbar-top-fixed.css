@@ -2,3 +2,12 @@ body {
   min-height: 75rem;
   
 }
+
+.navbar{
+
+}
+
+.row-border{
+	
+	border-top: 3px solid #afb8c6;
+}
