@@ -12,7 +12,7 @@ body {
   padding-left: 50px;
   padding-right: 50px;
 }
-.lyrics{
+.lyrics.musiclist {
   padding-left: 80px;
   padding-right: 80px;
   padding-top: 20px;
@@ -32,21 +32,6 @@ body {
 
 h1{
   color: #FF545C;
-}
-
-li {
-  list-style-type: none;
-}
-.musiclist{
-  background-color: #DCEAED;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.musiclist li:before {
-  content: '🎵 ';
-
 }
 
 .navbar-center {

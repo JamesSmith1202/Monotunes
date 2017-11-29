@@ -24,7 +24,7 @@
         <h4 class="album-name">{{each}}</h4>
       </div>
       <div class="col-2"></div>
-      <div class="col musiclist">
+      <div class="col lyrics">
         {% for t in album_dict[each] %}
         <li class="song-name"><a href="/song?title={{t["track"]["track_name"]}}&artist={{t["track"]["artist_name"]}}">{{t["track"]["track_name"]}}</a></li>
         {% endfor %}

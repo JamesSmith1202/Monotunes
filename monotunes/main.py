@@ -131,7 +131,7 @@ def artist():
 
 @app.route("/search")
 def search():
-    return render_template("search.html")
+    return render_template("search.html", isLogged = (USER_SESSION in session))
 
 if __name__ == "__main__":
     d = sqlite3.connect("data/database.db")
