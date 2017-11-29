@@ -67,3 +67,8 @@ Finish artist.html
 liK -- 2017-11-29 02:38:19
 created changes.txt
 
+michaelC -- 2017-11-29 03:15:43
+Finish song.html and profile.html. Both now have favoriting functionality
+
+
+
