@@ -6,7 +6,7 @@
 <h2>Top 10 Now</h2>
 <div class="lyrics">
 {% for each in top_songs%}
-  <li><a href="/song?title={{each["track"]["track_name"]}}&artist={{each["track"]["artist_name"]}}">{{each["track"]["track_name"]}}</a> by <a href="/artist?artist={{each["track"]["artist_name"]}}"">{{each["track"]["artist_name"]}}</a>  </li>
+  <a href="/song?title={{each["track"]["track_name"]}}&artist={{each["track"]["artist_name"]}}">{{each["track"]["track_name"]}}</a> by <a href="/artist?artist={{each["track"]["artist_name"]}}"">{{each["track"]["artist_name"]}}</a><br>
 {%endfor%}
 </div>
 </ul>

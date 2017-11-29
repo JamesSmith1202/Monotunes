@@ -66,18 +66,17 @@ def get_top_songs():
     return search_dict["message"]["body"]["track_list"]
 
 def get_wav(text, filename, voice = "en-US_AllisonVoice"):
-  if not os.path.isfile(filename):
-      apiurl = "https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize"
-      headers = {"content-type": "application/json", "Accept": "audio/wav", "Content-Disposition": "attachment;filename=audio.wav"}
-      dictionary = {"text": text, "voice": voice}
-      try:
-          r = requests.get(apiurl, auth=(ibm_user, ibm_pwd), stream=True, params=dictionary)
-      except Exception as e:
-          print e
-      return False
-  with open(filename, 'wb') as f:
-        f.write(r.content)
-  return True
+        apiurl = "https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize"
+        headers = {"content-type": "application/json", "Accept": "audio/wav", "Content-Disposition": "attachment;filename=audio.wav"}
+        dictionary = {"text": text, "voice": voice}
+        try:
+            r = requests.get(apiurl, auth=(ibm_user, ibm_pwd), stream=True, params=dictionary)
+        except Exception as e:
+            print e
+            return False
+        with open(filename, 'wb+') as f:
+            f.write(r.content)
+            return True
 
 if __name__ == "__main__":
     get_wav("Testing text to speech API", "../static/test.wav")
