@@ -9,7 +9,14 @@ body {
 .content{
 	text-align: left;
   padding-left: 20px;
-  padding-right: 20px;
+  padding-right: 60px;
+}
+.form-stuff{
+  background-color: #DCEAED;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .footerhdr{
   font-size: 10px;
