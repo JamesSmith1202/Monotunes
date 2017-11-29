@@ -1,6 +1,6 @@
 {% extends "template.html" %}
 {% block title %}
-Search for song
+Search
 {% endblock %}
 
 {%block content %}
@@ -21,7 +21,7 @@ Search for song
     <form class="form-artist" action="/artist" method="GET">
        <div class="form-group">
         <label for="user"><h2>Search for artist</h2></label>
-        <input class="form-control mr-sm-2" type="text" name="title" placeholder="Artist name">
+        <input class="form-control mr-sm-2" type="text" name="artist" placeholder="Artist name">
       </div>
       <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
     </form>

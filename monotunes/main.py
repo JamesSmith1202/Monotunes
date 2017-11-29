@@ -117,10 +117,9 @@ def artist():
         if id == 0:#if the song was not found
             return render_template("error.html", error = "Artist not found", artist = artist, isLogged = (USER_SESSION in session))
         albums = api.get_albums(id)
-        print albums
         album_dict = {}
         for i in albums:
-            album_dict[i["album"]["album_name"]] = api.get_album_tracks(i["album"]["album_id"])
+            album_dict[i["album_name"]] = api.get_album_tracks(i["album_id"])
         return render_template("artist.html", album_dict = album_dict, isLogged = (USER_SESSION in session))
     elif "search_artist" in request.form:#if they wanted to search by artist
         return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page

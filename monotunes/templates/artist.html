@@ -1,1 +1,11 @@
 {% extends "template.html" %}
+{%block title %}
+{{artist}}'s Page
+{% endblock %}
+{%block content %}
+{% if album_dict|length == 0 %}
+	{{artist}} has no albums. Sorry.
+{% else %}
+    
+{% endif %}
+{%endblock%}
