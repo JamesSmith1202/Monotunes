@@ -1,23 +1,22 @@
 body {
   min-height: 75rem;
-
 }
 
 .content{
-	padding-left: 30px;
+	text-align: left;
 }
-
+.footerhdr{
+  font-size: 12px;
+}
+.footertxt{
+  font-size: 9px;
+}
 h1{
   color: #FF545C;
 }
 
 li {
   list-style-type: none;
-}
-.navbar-center {
-    position: absolute;
-    left: 50%;
-    transform: translatex(-50%);
 }
 
 .musiclist li:before {
@@ -28,12 +27,12 @@ a{
 }
 /* navbar */
 .navbar-default .navbar{
-    background-color: #F9868C;
+    background-color: ##1C2C3D;
     border-color: #E7E7E7;
 }
 /* Title */
 .navbar-default .navbar-brand {
-    color: #777;
+    color: ##1C2C3D;
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
