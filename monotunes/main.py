@@ -108,7 +108,7 @@ def song():
 
 @app.route("/artist", methods = ["GET", "POST"])
 def artist():
-   if request.method == "GET":
+    if request.method == "GET":
         artist = request.args.get("artist")
         id = api.get_artistid(artist)
         if id == 0:#if the song was not found
