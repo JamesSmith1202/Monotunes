@@ -64,3 +64,6 @@ Removed search from navbar, and put it into a separate html file.
 michaelC -- 2017-11-29 00:29:08
 Finish artist.html
 
+liK -- 2017-11-29 02:38:19
+created changes.txt
+
