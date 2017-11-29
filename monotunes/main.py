@@ -119,7 +119,7 @@ def artist():
         albums = api.get_albums(id)
         album_dict = {}
         for i in albums:
-            album_dict[i["album_name"]] = api.get_album_tracks(i["album_id"])
+            album_dict[i["album"]["album_name"]] = api.get_album_tracks(i["album"]["album_id"])
         return render_template("artist.html", album_dict = album_dict, isLogged = (USER_SESSION in session))
     elif "search_artist" in request.form:#if they wanted to search by artist
         return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
