@@ -94,7 +94,7 @@ def song():
         id = api.get_song_id(title, artist)
         if id == 0:#if the song was not found
             return render_template("error.html", title = title, artist = artist, isLogged = (USER_SESSION in session))
-        return render_template("song.html", title = title, artist = artist, lyrics = api.get_lyrics(id), id = id, , isLogged = (USER_SESSION in session))#return page
+        return render_template("song.html", title = title, artist = artist, lyrics = api.get_lyrics(id), id = id, isLogged = (USER_SESSION in session))#return page
     if "favorite" in request.form:#if they want to add to favorites
         if USER_SESSION in session:#check if user in session
             db.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
