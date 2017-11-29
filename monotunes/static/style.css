@@ -1,5 +1,10 @@
 body {
   min-height: 75rem;
+
+}
+
+.content{
+	padding-left: 30px;
 }
 
 h1{
