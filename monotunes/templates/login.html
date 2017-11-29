@@ -4,12 +4,15 @@
 Login
 {%endblock%}
 {%block content %}
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4 container login">
     <form method="POST" action="/login">
       {% with messages = get_flashed_messages() %}
       {% if messages %}
-        {% for message in messages %}
-        <font color="red">{{ message }}</font><br>
-        {% endfor %}
+      {% for message in messages %}
+      <font color="red">{{ message }}</font><br>
+      {% endfor %}
       {% endif %}
       {% endwith %}
       <div class="form-group">
@@ -20,6 +23,10 @@ Login
         <label for="pass">Password</label>
         <input name="password" type="password" class="form-control" id="pass" placeholder="Enter password">
       </div>
-      <input class="btn btn-primary" type="submit" name="form" value="Submit">
+      <input class="btn btn-primary btn-block" type="submit" name="form" value="Login">
     </form>
+    New user? <a class="text-muted" href="/create">Create an account</a>
+  </div>
+  <div class="col-md-4"></div>
+</div>
 {% endblock %}
