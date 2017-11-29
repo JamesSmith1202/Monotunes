@@ -49,7 +49,7 @@ def get_albums(artistid):
 
 def get_album_tracks(albumid):
     args = {"album_id":albumid, "apikey":musix_key}
-    msg = requests.get(api_base.format("albums.tracks.get"), params=args)
+    msg = requests.get(api_base.format("album.tracks.get"), params=args)
     search_dict = msg.json()
     return search_dict["message"]["body"]["track_list"]
 
