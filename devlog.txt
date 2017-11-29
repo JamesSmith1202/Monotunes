@@ -72,3 +72,6 @@ Finish song.html and profile.html. Both now have favoriting functionality
 
 
 
+liK -- 2017-11-29 03:22:32
+design doc up to new specifications
+
