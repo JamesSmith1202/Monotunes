@@ -58,3 +58,6 @@ Changed 'db' to 'dab' in main.py
 michaelC -- 2017-11-28 22:12:42
 Streamlined html and updated home.html, login.html
 
+michaelC -- 2017-11-28 22:43:53
+Removed search from navbar, and put it into a separate html file.
+

@@ -77,7 +77,7 @@ def profile():
             return redirect(url_for("login"))
         else:
             username = session[USER_SESSION]
-            return render_template("profile.html", username = username, favorites = db.get_favorites(username))
+            return render_template("profile.html", username = username, favorites = db.get_favorites(username, ), isLogged = (USER_SESSION in session))
     elif "search_artist" in request.form:#if they wanted to search by artist
         return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
     elif "title" in request.form:
@@ -124,6 +124,10 @@ def artist():
     elif "search_artist" in request.form:#if they wanted to search by artist
         return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
     return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
+
+@app.route("/search")
+def search():
+    return render_template("search.html")
 
 if __name__ == "__main__":
     d = sqlite3.connect("data/database.db")
