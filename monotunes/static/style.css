@@ -10,7 +10,7 @@ li {
   list-style-type: none;
 }
 
-.toplist > li:before {
+.musiclist li:before {
   content: '🎵 ';
 }
 a{

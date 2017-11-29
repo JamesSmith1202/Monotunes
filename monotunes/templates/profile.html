@@ -7,7 +7,7 @@
 <div class="container-fluid">
   {% for each in favorites_dict %}
   <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-3 musiclist">
   
     <li><a href="/song?title={{each}}&artist={{favorites_dict[each][0]}}">{{each}}</a> by <a href="/artist?artist={{favorites_dict[each][0]}}">{{favorites_dict[each][0]}}</a> </li>
   </div>
