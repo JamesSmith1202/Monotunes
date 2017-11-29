@@ -1,9 +1,15 @@
 body {
   min-height: 75rem;
 }
-
+.login{
+  background-color: #DCEAED;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 .content{
 	text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .footerhdr{
   font-size: 10px;
@@ -16,9 +22,16 @@ h1{
 li {
   list-style-type: none;
 }
-
+.musiclist{
+  background-color: #DCEAED;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .musiclist li:before {
   content: '🎵 ';
+
 }
 a{
   color: #FF545C;
