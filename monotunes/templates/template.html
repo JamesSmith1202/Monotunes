@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="stylesheet" type="text/css" href="static/bootstrap.min.css">
-  <link type="text/css" href="static/navbar-top-fixed.css" rel="stylesheet">
+  <link type="text/css" href="static/style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -19,13 +19,13 @@
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+
       <ul class="navbar-nav mr-auto">
         {% if isLogged %}
         <li class="nav-item active">
           <a class="btn nav-link-success btn-outline-danger" href="/logout">Logout</a>
         </li>
-        {% else %} 
+        {% else %}
         <li class="nav-item active">
           <a class="btn nav-link-success btn-outline-info " href="/login">Login</a>
         </li>
@@ -41,7 +41,7 @@
           <a class="nav-link" href="/search">Search</a>
         </li>
       </ul>
-      
+
     </div>
   </nav>
   <br><br>
@@ -53,4 +53,3 @@
 </body>
 
 </html>
-
