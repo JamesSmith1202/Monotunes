@@ -72,7 +72,7 @@ def add_favorite(username, trackid):
         trackids.append(trackid)
         id_list = repr(trackids)
         print id_list
-        c.execute("UPDATE accounts SET favorites = '%s' WHERE username = '%s'" % (id_list, username))
+        c.execute('UPDATE accounts SET favorites = "%s" WHERE username = "%s"' % (id_list, username))
         db.commit()
         db.close()
 
@@ -84,7 +84,7 @@ def remove_favorite(username, trackid):
         trackids = get_favorites(username)
         trackids.remove(trackid)
         id_list = repr(trackids)
-        c.execute("UPDATE accounts SET favorites = '%s' WHERE username = '%s'" % (id_list, username))
+        c.execute('UPDATE accounts SET favorites = "%s" WHERE username = "%s"' % (id_list, username))
         db.commit()
         db.close()
 

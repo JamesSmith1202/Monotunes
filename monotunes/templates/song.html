@@ -21,6 +21,9 @@
 {% endwith %}
 <form action="/song" method="post">
   <input type="hidden" name="favorite" value="{{id}}">
+  <input type="hidden" name="id" value="{{id}}">
+  <input type="hidden" name="title" value="{{title}}">
+  <input type="hidden" name="artist" value="{{artist}}">
   <input class="btn btn-info" type="submit" name="form" value="Favorite">
 </form>
 {% endblock %}

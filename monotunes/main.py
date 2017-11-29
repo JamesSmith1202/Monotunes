@@ -70,6 +70,7 @@ def create():
 def profile():
     if (request.method == "GET"):
         if not USER_SESSION in session:
+            flash("Please login before viewing profile")
             return redirect(url_for("login"))
         else:
             username = session[USER_SESSION]
@@ -78,10 +79,11 @@ def profile():
             for i in favorites:
                 track = api.get_track(i)
                 favorites_dict[track["track_name"]] = [track["artist_name"], i]
+                print favorites_dict
             return render_template("profile.html", username = username, favorites_dict = favorites_dict, isLogged = (USER_SESSION in session))
     else:
         db.remove_favorite(session[USER_SESSION], request.form["songID"])#must be a post request so remove the desired song
-        return redirect(url_for("/profile"))
+        return redirect(url_for("profile"))
 
 @app.route("/song", methods = ["GET", "POST"])
 def song():
@@ -97,13 +99,16 @@ def song():
         return render_template("song.html", title = title, artist = artist, lyrics = lyrics, id = id, isLogged = (USER_SESSION in session))#return page
     if "favorite" in request.form:#if they want to add to favorites
         print request.form["favorite"]
+        title = request.form["title"]
+        artist = request.form["artist"]
+        id = request.form["id"]
         if USER_SESSION in session:#check if user in session
             if db.is_favorite(session[USER_SESSION], request.form["favorite"]):
                 flash("Song is already in your favorites list.")
             else:
                 db.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
                 flash("Song has been added to your favorites")
-            return render_template("song.html",isLogged = (USER_SESSION in session), title = title, artist = artist, lyrics = api.get_lyrics(id), id = id)#re render the page
+            return render_template("song.html", isLogged = (USER_SESSION in session), title = title, artist = artist, lyrics = api.get_lyrics(id), id = id)#re render the page
         else:
             flash("Please login to add to your favorites.")
             return redirect(url_for("login"))#if they arent logged in, then send them to the login page
