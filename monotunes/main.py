@@ -104,6 +104,7 @@ def song():
             return render_template("error.html", error = "Lyrics not found", title = title, artist = artist, isLogged = (USER_SESSION in session))
         return render_template("song.html", title = title, artist = artist, lyrics = lyrics, id = id, isLogged = (USER_SESSION in session))#return page
     if "favorite" in request.form:#if they want to add to favorites
+        print request.form["favorite"]
         if USER_SESSION in session:#check if user in session
             if db.is_favorite(session[USER_SESSION], request.form["favorite"]):
                 flash("Song is already in your favorites list.")
@@ -112,6 +113,7 @@ def song():
                 flash("Song has been added to your favorites")
             return render_template("song.html", title = title, artist = artist, lyrics = api.get_lyrics(id), id = id)#re render the page
         else:
+            flash("Please login to add to your favorites.")
             return redirect(url_for("login"))#if they arent logged in, then send them to the login page
     elif "search_artist" in request.form:#if they wanted to search by artist
         return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page

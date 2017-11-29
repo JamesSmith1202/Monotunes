@@ -12,4 +12,15 @@
   </h1>
   <p>{{lyrics}}</p>
 </div>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<font color="red">{{ message }}</font><br>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<form action="/song" method="post">
+  <input type="hidden" name="favorite" value="{{id}}">
+  <input class="btn btn-info" type="submit" name="form" value="Favorite">
+</form>
 {% endblock %}
