@@ -24,7 +24,7 @@ def add_session(username, password):
 @app.route("/", methods = ["GET", "POST"])
 def root():
     if request.method == "GET":
-        return render_template("home.html", top_songs = api.get_top_songs())
+        return render_template("home.html", top_songs = api.get_top_songs(), isLogged = (USER_SESSION in session))
     elif "search_artist" in request.form:#if they wanted to search by artist
         return redirect(url_for("/artist", artits = request.form["search_artist"]))#send them to the artist page
     return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
@@ -93,8 +93,8 @@ def song():
         artist = request.args.get("artist")
         id = api.get_song_id(title, artist)
         if id == 0:#if the song was not found
-            return render_template("error.html", title = title, artist = artist)
-        return render_template("song.html", title = title, artist = artist, lyrics = api.get_lyrics(id), id = id)#return page
+            return render_template("error.html", title = title, artist = artist, isLogged = (USER_SESSION in session))
+        return render_template("song.html", title = title, artist = artist, lyrics = api.get_lyrics(id), id = id, , isLogged = (USER_SESSION in session))#return page
     if "favorite" in request.form:#if they want to add to favorites
         if USER_SESSION in session:#check if user in session
             db.add_favorite(session[USER_SESSION], request.form["favorite"])#add the song to their fav
@@ -108,7 +108,19 @@ def song():
 
 @app.route("/artist", methods = ["GET", "POST"])
 def artist():
-   return "artist"
+   if request.method == "GET":
+        artist = request.args.get("artist")
+        id = api.get_artistid(artist)
+        if id == 0:#if the song was not found
+            return render_template("error.html", artist = artist, isLogged = (USER_SESSION in session))
+        albums = api.get_albums(id)
+        album_dict = {}
+        for i in albums:
+            album_dict[i["album_name"]] = api.get_album_tracks(i["album_id"])
+        return render_template("artist.html", album_dict = album_dict, isLogged = (USER_SESSION in session))
+    elif "search_artist" in request.form:#if they wanted to search by artist
+        return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
+    return redirect(url_for("/song", title = request.form["title"], artist = request.form["artist"]))#re render the page by sending another request with the form info
 
 if __name__ == "__main__":
     d = sqlite3.connect("data/database.db")
