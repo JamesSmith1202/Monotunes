@@ -25,6 +25,12 @@ def get_song_id(track, artist=""):
         return 0
     return search_dict["message"]["body"]["track_list"][0]["track"]["track_id"]
 
+def get_track(track_id):
+    args = {"track_id":track_id, "apikey":musix_key}
+    msg = requests.get(api_base.format("track.get"), params=args)
+    search_dict = msg.json()
+    return search_dict["message"]["body"]["track"]
+
 def get_lyrics(track_id):
     args = {"track_id":track_id, "apikey":musix_key}
     msg = requests.get(api_base.format("track.lyrics.get"), params=args)
