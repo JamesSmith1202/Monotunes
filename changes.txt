@@ -1,0 +1,25 @@
+Monotunes
+Kevin Li, James Smith, Michael Cheng, Adeebur Rahman
+
+DESIGN DOCUMENT CHANGES
+
+0. ADDITIONS
+error.html and search.html were added out of necessity that we did not foresee.
+test.html is new but not used in the app itself, existing only for testing html purposes.
+The use of bootstrap files was not originally reflected in the Components section, but has been updated.
+is_null(username, password, confpw) was added to main.py
+search() was added to main.py
+get_top_songs() was added to api.py
+two parameters were added to get_wav(text) in api.py: filename, and voice = "en-US_AllisonVoice"
+remove_favorite(username, trackid) and get_favorites(username) were added to db.py
+
+1. REMOVALS
+We removed the search function from the bar
+limitations section removed because we solved the problems!
+
+2. REVISIONS
+homepage.html was renamed home.html
+reorganized the Files and Components section for more clarity and less redundancies
+in main.py, add_session(user) parameters were changed to add_session(username, password)
+get_trackid was renamed get_song_id in api.py
+fixed typo of storyid to trackid
