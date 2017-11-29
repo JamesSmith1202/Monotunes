@@ -6,11 +6,9 @@ body {
 	text-align: left;
 }
 .footerhdr{
-  font-size: 12px;
+  font-size: 10px;
 }
-.footertxt{
-  font-size: 9px;
-}
+
 h1{
   color: #FF545C;
 }
