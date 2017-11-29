@@ -96,6 +96,7 @@ def song():
         lyrics = api.get_lyrics(id)
         if lyrics == 0:
             return render_template("error.html", error = "Lyrics not found", title = title, artist = artist, isLogged = (USER_SESSION in session))
+        print api.get_wav("audio.wav", lyrics)
         return render_template("song.html", title = title, artist = artist, lyrics = lyrics, id = id, isLogged = (USER_SESSION in session))#return page
     if "favorite" in request.form:#if they want to add to favorites
         print request.form["favorite"]

@@ -10,6 +10,10 @@
     <br>
     <small class="text-muted">{{artist}}</small>
   </h1>
+  <audio controls>
+    <source src="static/audio.wav" type="audio/wav">
+    Your browser does not support the audio tag.
+  </audio>
   <p class="lyrics">{{lyrics}}</p>
 </div>
 {% with messages = get_flashed_messages() %}
