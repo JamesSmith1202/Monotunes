@@ -121,7 +121,7 @@ def artist():
     artist = request.args.get("artist")
     id = api.get_artistid(artist)
     if id == 0:#if the song was not found
-        return render_template("error.html", error = "Artist not found", artist = artist, isLogged = (USER_SESSION in session))
+        return render_template("error.html", error = "Artist not found", title = "", artist = artist, isLogged = (USER_SESSION in session))
     albums = api.get_albums(id)
     album_dict = {}
     for i in albums:
