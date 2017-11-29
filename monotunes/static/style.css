@@ -1,13 +1,28 @@
 body {
   min-height: 75rem;
-  
 }
 
-.navbar{
+h1{
+  color: #FF545C;
+}
 
+a{
+  color: #FF545C;
+}
+/* navbar */
+.navbar-default .navbar{
+    background-color: #F9868C;
+    border-color: #E7E7E7;
+}
+/* Title */
+.navbar-default .navbar-brand {
+    color: #777;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #5E5E5E;
 }
 
 .row-border{
-	
 	border-top: 3px solid #afb8c6;
 }
