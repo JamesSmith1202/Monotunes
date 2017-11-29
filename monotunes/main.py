@@ -77,7 +77,12 @@ def profile():
             return redirect(url_for("login"))
         else:
             username = session[USER_SESSION]
-            return render_template("profile.html", username = username, favorites = db.get_favorites(username, ), isLogged = (USER_SESSION in session))
+            favorites = db.get_favorites(username)
+            favorites_dict = {}
+            for i in favorites:
+                track = api.get_track(i)
+                favorites_dict[track["track_name"]] = track["artist_name"]
+            return render_template("profile.html", username = username, favorites_dict = favorites_dict, favorites = favorites, isLogged = (USER_SESSION in session))
     elif "search_artist" in request.form:#if they wanted to search by artist
         return redirect(url_for("/artist", artist = request.form["search_artist"]))#send them to the artist page
     elif "title" in request.form:
